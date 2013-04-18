@@ -1,0 +1,49 @@
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56471)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56472)
+GET command from (ip,port)=('127.0.0.1', 56473)
+GET command from (ip,port)=('127.0.0.1', 56474)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56475)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56476)
+POST command from (ip,port)=('127.0.0.1', 56477)
+Started httpserver on port8050
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56480)
+POST command from (ip,port)=('127.0.0.1', 56481)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56482)
+POST command from (ip,port)=('127.0.0.1', 56483)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56484)
+POST command from (ip,port)=('127.0.0.1', 56485)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56486)
+POST command from (ip,port)=('127.0.0.1', 56487)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56488)
+POST command from (ip,port)=('127.0.0.1', 56489)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56490)
+POST command from (ip,port)=('127.0.0.1', 56491)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56529)
+POST command from (ip,port)=('127.0.0.1', 56530)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56566)
+POST command from (ip,port)=('127.0.0.1', 56567)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56591)
+POST command from (ip,port)=('127.0.0.1', 56592)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56601)
+POST command from (ip,port)=('127.0.0.1', 56602)
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 56605)
+POST command from (ip,port)=('127.0.0.1', 56606)
+Started httpserver on port8050
+Started httpserver on port8050
+GET command from (ip,port)=('127.0.0.1', 57219)
+POST command from (ip,port)=('127.0.0.1', 57221)
