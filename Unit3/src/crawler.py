@@ -1,24 +1,14 @@
-import re, urllib
+import re, urllib,urllib2
 from HTMLParser import HTMLParser
 
 class MyHTMLParser(HTMLParser):
     def handle_data(self, data):
         #print "data called"
-        if data!=" ":
-            textfile1 = open('text.txt','a')
-            textfile1.write(data)
-            textfile1.close()
-            return
-class formatter():  
-    def format(self):
-        f= open('text.txt','r')
-        w=open('format.txt','a')
-        for line in f:
-                newline = line.replace(' ', '')
-                w.write(newline)
-        f.close()
-        w.close()
+        textfile1 = open('text.txt','a')
+        textfile1.write(data)
+        textfile1.close()
         return
+class formatter():  
     def write(self,myurl):
         #print "write called"
         textfile1 = open('text.txt','a')
@@ -26,13 +16,16 @@ class formatter():
         textfile1.close()
         parser = MyHTMLParser()
         print myurl
-        parser.feed(urllib.urlopen(myurl).read())
+        req=urllib2.Request(myurl,headers={"User-Agent":"Magic Browser"})
+        response=urllib2.urlopen(req)
+        msg=response.read()
+        parser.feed(msg)
         return
 
 s=formatter()
-f=open("links2.txt","r")
-for i in f.readlines():  
+f=open("link.txt","r")
+for i in f.readlines():
+    if i=='\n':
+        continue
     myurl=i
     s.write(myurl)
-subeen=formatter()
-subeen.format()
