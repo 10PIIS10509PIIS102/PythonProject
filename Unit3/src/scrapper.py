@@ -8,6 +8,7 @@ br=0
 cr=0
 city=''
 state=''
+s=0
 i=0
 for line in f.readlines():
 	i=i+1
@@ -47,13 +48,23 @@ for line in f.readlines():
 		state=line.split('in')[0]
 		
 	if h==1:
-		if len(line)<36:
-			if re.match('[a-z]+( [a-z]+)?(,) ',line,re.I):
+		#print "len=",len('Lahaul and Spiti, Himachal Pradesh') 
+		if len(line)<=38:
+			if re.match('[a-z]+(( &)?|(-[a-z]+)?)( [a-z]+)?( [a-z]+)?(, )',line,re.I):
 				if re.match('Couple|Group|Family|Single',line,re.I):
+					s=1
+				if s==1:
+					w.write("Name3="+buffer1)
 					w.write("Preferred by="+line)
+					s=0
+
 				else:
-					if len(state)==len(line.split(",")[1].strip(" ")):
-						w.write("Name3="+line)
+					#print state
+					#print line.split(",")[1].replace("&","").replace(" ","").replace("\n","")
+					#print "State=",len(state.replace(" ","").replace("\n",""))
+					#print "line=",len(line.split(",")[1].replace("&","").replace(" ","").replace("\n",""))				
+					if len(state.replace(" ","").replace("\n",""))==len(line.split(",")[1].replace("&","").replace(" ","").replace("\n","")):
+							buffer1=line#w.write("Name3="+line)
 	
 f.close()
 w.close()
