@@ -1,10 +1,11 @@
+#-*-coding:utf-8 -*-
 import pymongo
 import datetime
 import re
 import linecache
 client = pymongo.Connection('localhost',27017)
-db = client.tourism_database
-database = db.database
+db = client.tourism_database8
+database8 = db.database8
 w=open('input.txt','r')
 f=open('inputdistance.txt','r')
 i=0
@@ -21,7 +22,7 @@ Bus=''
 t=0
 for line in w.readlines():
 	i=i+1
-	if line=="Beaches\n":
+	if line=="Beach\n":
 		t=1
 		Type='Beach'
 	elif line=="Hill Stations\n":
@@ -41,49 +42,51 @@ for line in w.readlines():
 			line=line.replace('State=','')
 			State=line.strip('0123456789\n')
 		elif re.match('Name=',line,re.I):
-			Name=line.replace('Name=','').strip('\n')
-			Budget=linecache.getline('input.txt',i+2).replace('Budget=','').strip('\n')
-			post={'Type':Type,'State':State,'Name':Name,'Budget':int(Budget)}
-			database.insert(post)
-			#print Type,State,Name,Budget
+			Name=line.replace('Name=','').split(",")[0]
+			Budget=linecache.getline('input.txt',i+2).replace('Budget=','').replace('onwards','').strip('\n')
+			post={'Type':str(Type),'State':str(State),'Name':str(Name),'Budget':int(Budget)}
+			database8.insert(post)
+			#print post
 	elif t==4:
 		if re.match('State=',line,re.I):
 			line=line.replace('State=','')
 			State=line.strip('0123456789\n')
 		elif re.match('Name=',line,re.I):
-			Name=line.replace('Name=','').strip('\n')
-			Budget=linecache.getline('input.txt',i+2).replace('Budget=','').strip('\n')
+			Name=line.replace('Name=','').split(",")[0]
+			Budget=linecache.getline('input.txt',i+2).replace('Budget=','').replace('onwards','').strip('\n')
 			Budget=Budget.replace('onwards','')
-			post={'Type':Type,'State':State,'Name':Name,'Budget':int(Budget)}
-			database.insert(post)
-			#print Type,State,Name,Budget
+			post={'Type':str(Type),'State':str(State),'Name':str(Name),'Budget':int(Budget)}
+			database8.insert(post)
 	elif t==2:
 		if re.match('State=',line,re.I):
 			State=line.replace('State=','').strip('\n')
 		elif re.match('Name=',line,re.I):
-			Name=line.replace('Name=','').strip('\n')
+			Name=line.replace('Name=','').split(",")[0]
+			
 		elif re.match('Preferred by=',line,re.I):
 			Preferredby=line.replace('Preferred by=','').strip('\n')
-			post={'Type':Type,'State':State,'Name':Name,'Preferred by':Preferredby}
-			database.insert(post)
+			post={'Type':str(Type),'State':str(State),'Name':str(Name),'Preferred by':str(Preferredby)}
+			database8.insert(post)
 	elif t==1:
 		if re.match('State=',line,re.I):
 			State=line.replace('State=','').strip('\n')
 		elif re.match('Name=',line,re.I):
-			Name=line.replace('Name=','').strip('\n')
+			Name=line.replace('Name=','').split(",")[0]
 		elif re.match('Preferred by=',line,re.I):
 			Preferredby=line.replace('Preferred by=','').strip('\n')
-			post={'Type':Type,'State':State,'Name':Name,'Preferred by':Preferredby}
-			database.insert(post)
+			post={'Type':str(Type),'State':str(State),'Name':str(Name),'Preferred by':str(Preferredby)}
+			database8.insert(post)
 	elif t==5:
 		if re.match('State=',line,re.I):
 			State=line.replace('State=','').strip('\n')
 		elif re.match('Name=',line,re.I):
-			Name=line.replace('Name=','').strip('\n')
+			#print State
+			Name=line.replace('Name=','').split(",")[0]
+			#print Name
 		elif re.match('Preferred by=',line,re.I):
 			Preferredby=line.replace('Preferred by=','').strip('\n')
-			post={'Type':Type,'State':State,'Name':Name,'Preferred by':Preferredby}
-			database.insert(post)
+			post={'Type':str(Type),'State':str(State),'Name':str(Name),'Preferred by':str(Preferredby)}
+			database8.insert(post)
 i=0
 d=0
 for line in f.readlines():
@@ -116,5 +119,5 @@ for line in f.readlines():
 		#print d
 	if d==9:
 		d=0
-		post={'Name':Name,'Distance':int(Distance),'Flight':Flights,'Taxi':Taxi,'Bus':Bus,'Trains':Trains}
-		database.insert(post)
+		post={'Name':str(Name),'Distance':int(Distance),'Flight':str(Flights),'Taxi':str(Taxi),'Bus':str(Bus),'Trains':str(Trains)}
+		database8.insert(post)

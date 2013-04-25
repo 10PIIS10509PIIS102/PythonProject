@@ -17,6 +17,8 @@ class myHandler(SimpleHTTPRequestHandler):
 		f = open('log.txt','a')
 		f.write(str(self.command)+' command from (ip,port)='+str(self.client_address)+'\n')
 		f.close()
+		g=0
+		f=1
 		self.send_response(200)
 		#send header first
 		self.send_header('Content-type','text-html')
@@ -24,10 +26,10 @@ class myHandler(SimpleHTTPRequestHandler):
 		df='''
 			<html>
 			<head>
-			<title>cgi input</title>
+			<title>Results</title>
 			</head>
 			<body>
-			<h2>the keys are </h2> %s
+			%s
 			</body>
 			</html>'''
 	# Create instance of FieldStorage 
@@ -36,13 +38,30 @@ class myHandler(SimpleHTTPRequestHandler):
 									keep_blank_values = 1) 
 
 	# Get data from fields
-		type= form.getvalue('Type')
-		state= form.getvalue('State')
-		budget= form.getvalue('Budget')
-		mongoretriever.search(form.getvalue('Type'),form.getvalue('Name'),form.getvalue('State'),form.getvalue('Budget'),form.getvalue('Distance'),form.getvalue("By"))
+		res=''
+		results=mongoretriever.search(form.getvalue('Type'),form.getvalue('Name'),form.getvalue('State'),form.getvalue('Budget'),form.getvalue('Distance'))
 		#print type,state,budget
-		self.wfile.write(df%(form))
-		
+		if results!=None:
+			for i in range(0,len(results)):
+				for j in results[i].keys():
+					j=j.replace('u','').replace("'","").replace(" ","")
+					if j=='Distance':
+						g=1
+					if j=='Budget':
+						f=1
+				for j in results[i].value():
+					j=j.replace('u','').replace("'","")
+			for i in range(0,len(results)):
+				res='Name='+results[i][Name]+'<br/>Type='+results[i][Type]+'<br/>State='+results[i][State]+'<br/>Preferred by='+results[i][Preferredby]+'<br/>'
+				if g==1:
+					res=res+'Distance='+results[i][Distance]+'<br/>Flight='+results[i][Flight]+'<br/>Trains='+results[i][Trains]+'<br/>Taxi='+results[i][Taxi]+'<br/>Bus='+results[i][Bus]+'<br/>'
+				if f==1:
+					res=res+'Budget=INR'+results[i][Budget]+'<br/>'
+				else:
+					res=res+'<br/>'
+			self.wfile.write(df%(res))	
+		else:
+			self.wfile.write('No Record')
 	def do_GET(self):
 		useragent=self.headers['user-agent']
 		f = open('log.txt','a')
@@ -51,7 +70,7 @@ class myHandler(SimpleHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header('Content-type','text/html')
 		self.end_headers()
-		if (sdk.getOS(str(useragent))!=None):
+		if (str(sdk.getOS(str(useragent)))=='None'):
 			form='''<html>
 			<head>
 			<script>
@@ -82,13 +101,8 @@ class myHandler(SimpleHTTPRequestHandler):
 			</select>
 			<h3>Enter Name:</h3>
 			<input type=text name="Name" value="none"/><br />
-			<select size=1 name="By">
-			<option value="none">Places preferred by:</option>
-			<option id=10  value="Single" onclick=budget(id)>Single</option>
-			<option id=11  value="Family" onclick=budget(id)>Family</option>
-			<option id=21  value="Couple" onclick=budget(id)>Couple</option>
-			<option id=31  value="Group" onclick=budget(id)>Group</option>
-			</select>
+			<h3>Enter Distance:</h3>
+			<input type=text name="Distance" value="none"/><br />
 			<div id=bu style="display:none"><h3>Enter your Budget:</h3>
 			<input type=text name="Budget" value="none"/></div>
 			<h3>Enter State:</h3>
@@ -141,6 +155,11 @@ except DeviceServerError:
 except RuntimeError:
 	f = open('log.txt','a')
 	f.write('The query is not proper or some error occurred while fetching and processing the results'+'\n')
+	f.close()
+	server.socket.close()
+except Exception as e:
+	f = open('log.txt','a')
+	f.write(e+'\n')
 	f.close()
 	server.socket.close()
 	
